@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/tvAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="Weather Wear"
+        android:textSize="50sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/logo"
+        android:layout_alignRight="@+id/tvAppName"
+        android:layout_alignEnd="@+id/tvAppName"
+        android:layout_alignLeft="@+id/tvAppName"
+        android:layout_alignStart="@+id/tvAppName" />
+
+    <Button
+        android:id="@+id/bAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="23dp"
+        android:onClick="clickAdd"
+        android:text="Add Clothes"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/bAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="clickAlarm"
+        android:text="View Alarm"
+        android:layout_alignBaseline="@+id/bAdd"
+        android:layout_alignBottom="@+id/bAdd"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <Button
+        android:id="@+id/bWeather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="clickWeather"
+        android:text="Weather"
+        android:layout_alignBaseline="@+id/bAdd"
+        android:layout_alignBottom="@+id/bAdd"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="19dp"
+        android:layout_marginStart="19dp" />
+
+</RelativeLayout>
