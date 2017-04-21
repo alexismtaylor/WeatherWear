@@ -57,7 +57,9 @@
         android:text="Weather"
         android:layout_alignBaseline="@+id/bAdd"
         android:layout_alignBottom="@+id/bAdd"
-        android:layout_alignLeft="@+id/ivLogo"
-        android:layout_alignStart="@+id/ivLogo" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="19dp"
+        android:layout_marginStart="19dp" />
 
 </RelativeLayout>

@@ -15,19 +15,19 @@ public class OpenScreenActivity extends AppCompatActivity {
     //go to alarm activity
     public void clickAlarm(View view)
     {
-        Intent intent = new Intent(OpenScreenActivity.class, AlarmActivity.class);
+        Intent intent = new Intent(getApplicationContext(), AlarmActivity.class);
         startActivity(intent);
     }
     //go to weather activity
     public void clickWeather(View view)
     {
-        Intent intent = new Intent(OpenScreenActivity.class, WeatherActivity.class);
+        Intent intent = new Intent(getApplicationContext(), WeatherActivity.class);
         startActivity(intent);
     }
     //go to adding pictures activity
     public void clickAdd(View view)
     {
-        Intent intent = new Intent(OpenScreenActivity.class, AddClothingActivity.class);
+        Intent intent = new Intent(getApplicationContext(), AddClothingActivity.class);
         startActivity(intent);
     }
 
