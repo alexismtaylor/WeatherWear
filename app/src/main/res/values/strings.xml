@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">WeatherWear</string>
+
+    <string-array name="categories">
+        <item>Clothing Categories</item>
+        <item>T-Shirts</item>
+        <item>Shorts</item>
+        <item>Pants</item>
+        <item>Long-Sleeve Shirts</item>
+        <item>Dresses</item>
+        <item>Tank Tops</item>
+        <item>Skirts</item>
+        <item>Sweaters</item>
+    </string-array>
 </resources>
