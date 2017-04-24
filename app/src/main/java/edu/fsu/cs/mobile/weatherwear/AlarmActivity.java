@@ -42,6 +42,7 @@ public class AlarmActivity extends AppCompatActivity {
                                              boolean isChecked) {
                     if (isChecked) {
                         Toast.makeText(AlarmActivity.this, "Alarm is now on", Toast.LENGTH_SHORT).show();
+                        scheduleAlarm();
                     } else {
                         Toast.makeText(AlarmActivity.this, "Alarm is now off", Toast.LENGTH_SHORT).show();
                     }
@@ -59,6 +60,8 @@ public class AlarmActivity extends AppCompatActivity {
             bEdit.setText("Edit");
             editTime = false;
             timePicker.setEnabled(false);
+            if(switch1.isChecked())
+                scheduleAlarm();
         }
         else {
             editTime = true;
@@ -66,12 +69,13 @@ public class AlarmActivity extends AppCompatActivity {
             bEdit.setText("Save");
             hour = timePicker.getCurrentHour();                 //get hour
             minute = timePicker.getCurrentMinute();            //get minutes
-            scheduleAlarm();
         }
     }
 
     public void scheduleAlarm()
     {
+        hour = timePicker.getCurrentHour();                 //get hour
+        minute = timePicker.getCurrentMinute();            //get minutes
         alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
         alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);

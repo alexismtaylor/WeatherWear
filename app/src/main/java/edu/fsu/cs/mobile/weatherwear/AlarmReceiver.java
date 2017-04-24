@@ -1,5 +1,6 @@
 package edu.fsu.cs.mobile.weatherwear;
 
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,13 +13,17 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Intent notificationIntent = new Intent(context, WeatherActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
+                notificationIntent, 0);
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(
-        R.drawable.logo).setContentTitle("Wake up!").setContentText("View the weather!");
+        R.drawable.logo).setContentIntent(contentIntent).setContentTitle("Wake up!").setContentText("View the weather!");
 
         NotificationManager mNotificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        mNotificationManager.notify(001, mBuilder.build());
+        mNotificationManager.notify(0, mBuilder.build());
 
     }
 }
