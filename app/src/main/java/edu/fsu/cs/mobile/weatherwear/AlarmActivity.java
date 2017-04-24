@@ -1,5 +1,11 @@
 package edu.fsu.cs.mobile.weatherwear;
 
+import java.util.Calendar;
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +15,7 @@ import android.widget.TimePicker;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
+import android.content.Context;
 
 public class AlarmActivity extends AppCompatActivity {
 
@@ -17,6 +24,8 @@ public class AlarmActivity extends AppCompatActivity {
     Button bEdit;
     int hour, minute;
     Switch switch1;
+    private AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +66,24 @@ public class AlarmActivity extends AppCompatActivity {
             bEdit.setText("Save");
             hour = timePicker.getCurrentHour();                 //get hour
             minute = timePicker.getCurrentMinute();            //get minutes
+            scheduleAlarm();
         }
+    }
+
+    public void scheduleAlarm()
+    {
+        alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, alarmIntent);
+        Toast.makeText(this, "Alarm scheduled for " + hour + ":" + minute, Toast.LENGTH_SHORT).show();
+
     }
 }

@@ -18,7 +18,12 @@
         </activity>
         <activity android:name=".AlarmActivity" />
         <activity android:name=".WeatherActivity" />
-        <activity android:name=".AddClothingActivity"></activity>
+        <activity android:name=".AddClothingActivity" />
+
+        <receiver
+            android:name=".AlarmReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>
