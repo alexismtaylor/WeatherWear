@@ -20,6 +20,9 @@
         <activity android:name=".WeatherActivity" />
         <activity android:name=".AddClothingActivity" />
 
+        <uses-feature android:name="android.hardware.camera"
+            android:required="true" />
+
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
