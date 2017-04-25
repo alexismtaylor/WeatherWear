@@ -2,6 +2,7 @@ package edu.fsu.cs.mobile.weatherwear;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.Button;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class AddClothingActivity extends AppCompatActivity implements OnItemSelectedListener {
@@ -127,9 +129,14 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
             ivPictureTaken.setImageBitmap(imageBitmap); //set imageview to image
         }
         else if(requestCode == SELECT_IMAGE && resultCode == RESULT_OK){
-            Bundle extras = data.getExtras();
-            imageBitmap = (Bitmap) extras.get("data");
-            ivPictureTaken.setImageBitmap(imageBitmap);
+            Uri uri = data.getData();
+            try {
+                imageBitmap = (Bitmap) MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                ivPictureTaken.setImageBitmap(imageBitmap);
+            }
+            catch(IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
