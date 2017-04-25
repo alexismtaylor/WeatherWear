@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.app.NotificationManager;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.app.Notification;
 
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -18,7 +19,9 @@ public class AlarmReceiver extends BroadcastReceiver {
                 notificationIntent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(
-        R.drawable.logo).setContentIntent(contentIntent).setContentTitle("Wake up!").setContentText("View the weather!");
+        R.drawable.logo).setContentIntent(contentIntent).setContentTitle("Wake up!").setContentText("View the weather!").setPriority
+                (Notification.PRIORITY_MAX);
+        mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
 
         NotificationManager mNotificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
