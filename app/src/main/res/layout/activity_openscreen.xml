@@ -21,10 +21,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/logo"
-        android:layout_alignRight="@+id/tvAppName"
-        android:layout_alignEnd="@+id/tvAppName"
-        android:layout_alignLeft="@+id/tvAppName"
-        android:layout_alignStart="@+id/tvAppName" />
+        android:layout_above="@+id/bAdd"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="23dp" />
 
     <Button
         android:id="@+id/bAdd"
