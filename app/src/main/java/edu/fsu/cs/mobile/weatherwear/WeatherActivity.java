@@ -27,6 +27,7 @@ public class WeatherActivity extends AppCompatActivity {
         Get the climate to update the icon (replace climate with variable from weather API that represents climate)
 
         if(climate == "sunny")
+            ivWeatherIcon.setImageResource(R.drawable.sunny);
         else if(climate == "mostly cloudy" || climate == "cloudy")
             ivWeatherIcon.setImageResource(R.drawable.mostlycloudy);
         else if(climate == "partly cloudy")
