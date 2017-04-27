@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OpenScreenActivity">
+        <activity android:name=".SplashScreen">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,14 +20,18 @@
         <activity android:name=".AlarmActivity" />
         <activity android:name=".WeatherActivity" />
         <activity android:name=".AddClothingActivity" />
+        <activity android:name=".OpenScreenActivity" />
 
-        <uses-feature android:name="android.hardware.camera"
+
+        <uses-feature
+            android:name="android.hardware.camera"
             android:required="true" />
 
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
+
     </application>
 
 </manifest>
