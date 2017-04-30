@@ -2,10 +2,13 @@ package edu.fsu.cs.mobile.weatherwear;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.view.View;
@@ -14,8 +17,17 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.Button;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AddClothingActivity extends AppCompatActivity implements OnItemSelectedListener {
 
@@ -67,31 +79,42 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
 
     public void clickAdd(View view) {
         //add pic to arraylist
+        //File root = Environment.getExternalStorageDirectory();
+       // File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        //File cachePath = new File(root.getAbsolutePath() + "tshirt.jpg");
         if(location != 0) {
             spinner.setSelection(0); //set back to default
             if(location == 1) { //tshirts
                 tshirts.add(imageBitmap);
+                createExternalStoragePrivatePicture(imageBitmap,tshirts, "tshirt"); //testing
             }
             else if(location == 2) { //shorts
                 shorts.add(imageBitmap);
+                createExternalStoragePrivatePicture(imageBitmap,shorts, "shorts"); //testing
             }
             else if(location == 3){ //pants
                 pants.add(imageBitmap);
+                createExternalStoragePrivatePicture(imageBitmap,pants, "pants"); //testing
             }
             else if(location == 4){ //long sleeve
                 longsleeve.add(imageBitmap);
+                createExternalStoragePrivatePicture(imageBitmap,longsleeve, "longsleeves"); //testing
             }
             else if(location == 5){ //dress
                 dress.add(imageBitmap);
+                createExternalStoragePrivatePicture(imageBitmap,dress ,"dress"); //testing
             }
             else if(location == 6){ //tanktop
                 tanktop.add(imageBitmap);
+                createExternalStoragePrivatePicture(imageBitmap, tanktop,"tanktop"); //testing
             }
             else if(location == 7){ //skirts
                 skirts.add(imageBitmap);
+                createExternalStoragePrivatePicture(imageBitmap, skirts,"skirt"); //testing
             }
             else if(location == 8){ //sweaters
                 sweaters.add(imageBitmap);
+                createExternalStoragePrivatePicture(imageBitmap, sweaters,"sweater"); //testing
             }
         }
         else{
@@ -109,9 +132,20 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
 
     private void dispatchTakePictureIntent(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        //String pictureName=getPictureName();
+        //File imageFile=new File(pictureDirectory,pictureName);
+        //Uri pictureUri = Uri.fromFile(imageFile);
+        //takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,pictureUri);
         if(takePictureIntent.resolveActivity(getPackageManager()) != null){
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
+    }
+
+    private String getPictureName() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String timestamp = sdf.format(new Date());
+        return "WeatherWearImage" +timestamp+ ".jpg";
     }
 
     private void openGalleryIntent(){
@@ -139,6 +173,72 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
             }
         }
     }
+
+
+    //Testing:
+
+    void createExternalStoragePrivatePicture(Bitmap bitmap, ArrayList<Bitmap> s, String type) {
+        // Create a path where we will place our picture in our own private
+        // pictures directory.  Note that we don't really need to place a
+        // picture in DIRECTORY_PICTURES, since the media scanner will see
+        // all media in these directories; this may be useful with other
+        // media types such as DIRECTORY_MUSIC however to help it classify
+        // your media for display to the user.
+        File path = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File file = new File(path, type+s.indexOf(bitmap)+".jpg");
+
+
+        OutputStream fOutputStream = null;
+        //File file = new File(path + "/Captures/", "screen.jpg");
+        try {
+            fOutputStream = new FileOutputStream(file);
+
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOutputStream);
+            fOutputStream.flush();
+            fOutputStream.close();
+
+            MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Save Failed", Toast.LENGTH_SHORT).show();
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Save Failed", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+    }
+
+    void deleteExternalStoragePrivatePicture() {
+        // Create a path where we will place our picture in the user's
+        // public pictures directory and delete the file.  If external
+        // storage is not currently mounted this will fail.
+        File path = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        if (path != null) {
+            File file = new File(path, "DemoPicture.jpg");
+            file.delete();
+        }
+    }
+
+    boolean hasExternalStoragePrivatePicture() {
+        // Create a path where we will place our picture in the user's
+        // public pictures directory and check if the file exists.  If
+        // external storage is not currently mounted this will think the
+        // picture doesn't exist.
+        File path = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        if (path != null) {
+            File file = new File(path, "DemoPicture.jpg");
+            return file.exists();
+        }
+        return false;
+    }
+
+
+
+    //End testing
+
 
 
 }
