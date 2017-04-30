@@ -14,6 +14,14 @@ import java.util.Random;
 public class WeatherActivity extends AppCompatActivity {
     int [] clothesTopCount={0,0,0,0,0};
     int [] clothesBottomCount={0,0,0};
+    ArrayList<File> shorts = new ArrayList<>();
+    ArrayList<File> pants = new ArrayList<>();
+    ArrayList<File> tshirts = new ArrayList<>();
+    ArrayList<File> longsleeve = new ArrayList<>();
+    ArrayList<File> dress = new ArrayList<>();
+    ArrayList<File> tanktop = new ArrayList<>();
+    ArrayList<File> skirts = new ArrayList<>();
+    ArrayList<File> sweaters = new ArrayList<>();
     String [] clothesTop={"tshirt","tanktop","sweater","longsleeves","dress"};
     String [] clothesBottom={"shorts","pants","skirt"};
     TextView tvRain, tvTemp, tvCondition;
@@ -37,42 +45,50 @@ public class WeatherActivity extends AppCompatActivity {
         File files []=path.listFiles();
         Random rand = new Random();
 
-        //Going through the list of files and adding to the list of counters for each thing
-        //so that the random function goes through only items that exist
+        //Going through the list of files and adding to each individual arrayList
+        //so that we have every file categorized in it's own ArrayList
         for (int i=0;i<files.length;i++)
         {
-            if(files[i].getName().contains("tshirt"));
-                clothesTopCount[0]+=1;
-            if(files[i].getName().contains("tanktop"));
-                clothesTopCount[1]+=1;
-            if(files[i].getName().contains("sweater"));
-                clothesTopCount[2]+=1;
-            if(files[i].getName().contains("longsleeves"));
-                clothesTopCount[3]+=1;
-            if(files[i].getName().contains("dress"));
-                clothesTopCount[4]+=1;
-            if(files[i].getName().contains("shorts"));
-                clothesBottomCount[0]+=1;
-            if(files[i].getName().contains("pants"));
-                clothesBottomCount[1]+=1;
-            if(files[i].getName().contains("skirt"));
-                clothesBottomCount[2]+=1;
+            if(files[i].getName().contains("tshirt")) {
+                tshirts.add(files[i]);
+            }
+            if(files[i].getName().contains("tanktop")) {
+                tanktop.add(files[i]);
+            }
+            if(files[i].getName().contains("sweater")) {
+                clothesTopCount[2] += 1;
+                sweaters.add(files[i]);
+            }
+            if(files[i].getName().contains("longsleeves")) {
+                clothesTopCount[3] += 1;
+                longsleeve.add(files[i]);
+            }
+            if(files[i].getName().contains("dress")) {
+                clothesTopCount[4] += 1;
+                dress.add(files[i]);
+            }
+            if(files[i].getName().contains("shorts")) {
+                clothesBottomCount[0] += 1;
+                shorts.add(files[i]);
+            }
+            if(files[i].getName().contains("pants")) {
+                clothesBottomCount[1] += 1;
+                pants.add(files[i]);
+            }
+            if(files[i].getName().contains("skirt")) {
+                clothesBottomCount[2] += 1;
+                skirts.add(files[i]);
+            }
         }
 
 
-        //Just gets a random picture and sets it to the first one
-        //File file = files[rand.nextInt(files.length)];
-        File file=getRandomTop(clothesTopCount,files,rand,clothesTop);
-        Uri uri = Uri.fromFile(file);
-        ivPic1.setImageURI(uri);
 
-        //file = files[rand.nextInt(files.length)];
+        //This sets the first imageview to a random tshirt
+        setRandomClothing(tshirts,ivPic1,rand);
 
-        file=getRandomTop(clothesBottomCount,files,rand,clothesBottom);
-        uri = Uri.fromFile(file);
-        ivPic2.setImageURI(uri);
+        //This sets the second imageview to a random pair of shorts
+        setRandomClothing(shorts,ivPic2,rand);
 
-        //ivPic1.
 
         /*
         Get random clothes and update pic1 and pic2
@@ -100,28 +116,11 @@ public class WeatherActivity extends AppCompatActivity {
         */
     }
 
-
-    File getRandomTop(int [] clothesTopCount,File files [], Random rand, String [] clothesTop)
+    void setRandomClothing(ArrayList<File> files, ImageView iv,Random rand)
     {
-        ArrayList<File> temp=new ArrayList<>();
-        ArrayList<Integer> temp1= new ArrayList<>();
-        //Goes through the clothesCount to add all the postions that have clothes in them.
-        for(int i=0; i<clothesTopCount.length;i++)
-        {
-            if(clothesTopCount[i]>0)
-                temp1.add(i);
-        }
-        //gets a random position, which means it gets an article of clothing
-        int pos= temp1.get(rand.nextInt(temp1.size()));
-
-        //Adds all the files that have contain the name that it's looking for
-        for (int i=0;i<files.length;i++)
-        {
-            if(files[i].getName().contains(clothesTop[pos]))
-                temp.add(files[i]);
-        }
-        //return a random File which is an image.
-        return temp.get(rand.nextInt(temp.size()));
+        File f= files.get(rand.nextInt(files.size()));
+        Uri uri = Uri.fromFile(f);
+        iv.setImageURI(uri);
     }
 
 

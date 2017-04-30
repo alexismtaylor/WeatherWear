@@ -132,21 +132,13 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
 
     private void dispatchTakePictureIntent(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        //String pictureName=getPictureName();
-        //File imageFile=new File(pictureDirectory,pictureName);
-        //Uri pictureUri = Uri.fromFile(imageFile);
-        //takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,pictureUri);
+
         if(takePictureIntent.resolveActivity(getPackageManager()) != null){
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
-    private String getPictureName() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-        String timestamp = sdf.format(new Date());
-        return "WeatherWearImage" +timestamp+ ".jpg";
-    }
+
 
     private void openGalleryIntent(){
         Intent intent = new Intent();
@@ -211,29 +203,6 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
 
     }
 
-    void deleteExternalStoragePrivatePicture() {
-        // Create a path where we will place our picture in the user's
-        // public pictures directory and delete the file.  If external
-        // storage is not currently mounted this will fail.
-        File path = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        if (path != null) {
-            File file = new File(path, "DemoPicture.jpg");
-            file.delete();
-        }
-    }
-
-    boolean hasExternalStoragePrivatePicture() {
-        // Create a path where we will place our picture in the user's
-        // public pictures directory and check if the file exists.  If
-        // external storage is not currently mounted this will think the
-        // picture doesn't exist.
-        File path = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        if (path != null) {
-            File file = new File(path, "DemoPicture.jpg");
-            return file.exists();
-        }
-        return false;
-    }
 
 
 
