@@ -23,6 +23,11 @@
         <activity android:name=".OpenScreenActivity" />
 
 
+        <uses-permission
+            android:name="android.permission.READ_EXTERNAL_STORAGE"
+            android:maxSdkVersion="21" />
+
+
         <uses-feature
             android:name="android.hardware.camera"
             android:required="true" />

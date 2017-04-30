@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class WeatherActivity extends AppCompatActivity {
@@ -36,24 +37,40 @@ public class WeatherActivity extends AppCompatActivity {
         File files []=path.listFiles();
         Random rand = new Random();
 
-        //Just gets a random picture and sets it to the first one
-        File file = files[rand.nextInt(files.length)];
-        Uri uri = Uri.fromFile(file);
-        ivPic1.setImageURI(uri);
-
-        file = files[rand.nextInt(files.length)];
-        uri = Uri.fromFile(file);
-        ivPic2.setImageURI(uri);
-
-
+        //Going through the list of files and adding to the list of counters for each thing
+        //so that the random function goes through only items that exist
         for (int i=0;i<files.length;i++)
         {
             if(files[i].getName().contains("tshirt"));
                 clothesTopCount[0]+=1;
             if(files[i].getName().contains("tanktop"));
                 clothesTopCount[1]+=1;
+            if(files[i].getName().contains("sweater"));
+                clothesTopCount[2]+=1;
+            if(files[i].getName().contains("longsleeves"));
+                clothesTopCount[3]+=1;
+            if(files[i].getName().contains("dress"));
+                clothesTopCount[4]+=1;
+            if(files[i].getName().contains("shorts"));
+                clothesBottomCount[0]+=1;
+            if(files[i].getName().contains("pants"));
+                clothesBottomCount[1]+=1;
+            if(files[i].getName().contains("skirt"));
+                clothesBottomCount[2]+=1;
         }
 
+
+        //Just gets a random picture and sets it to the first one
+        //File file = files[rand.nextInt(files.length)];
+        File file=getRandomTop(clothesTopCount,files,rand,clothesTop);
+        Uri uri = Uri.fromFile(file);
+        ivPic1.setImageURI(uri);
+
+        //file = files[rand.nextInt(files.length)];
+
+        file=getRandomTop(clothesBottomCount,files,rand,clothesBottom);
+        uri = Uri.fromFile(file);
+        ivPic2.setImageURI(uri);
 
         //ivPic1.
 
@@ -82,4 +99,31 @@ public class WeatherActivity extends AppCompatActivity {
 
         */
     }
+
+
+    File getRandomTop(int [] clothesTopCount,File files [], Random rand, String [] clothesTop)
+    {
+        ArrayList<File> temp=new ArrayList<>();
+        ArrayList<Integer> temp1= new ArrayList<>();
+        //Goes through the clothesCount to add all the postions that have clothes in them.
+        for(int i=0; i<clothesTopCount.length;i++)
+        {
+            if(clothesTopCount[i]>0)
+                temp1.add(i);
+        }
+        //gets a random position, which means it gets an article of clothing
+        int pos= temp1.get(rand.nextInt(temp1.size()));
+
+        //Adds all the files that have contain the name that it's looking for
+        for (int i=0;i<files.length;i++)
+        {
+            if(files[i].getName().contains(clothesTop[pos]))
+                temp.add(files[i]);
+        }
+        //return a random File which is an image.
+        return temp.get(rand.nextInt(temp.size()));
+    }
+
+
+
 }
