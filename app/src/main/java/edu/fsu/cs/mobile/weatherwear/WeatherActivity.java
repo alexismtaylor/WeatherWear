@@ -31,7 +31,7 @@ import az.openweatherapi.model.gson.current_day.CurrentWeather;
 public class WeatherActivity extends AppCompatActivity implements LocationListener {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION2 = 100;
-    
+
     int[] clothesTopCount = {0, 0, 0, 0, 0};
     int[] clothesBottomCount = {0, 0, 0};
     ArrayList<File> shorts = new ArrayList<>();
@@ -60,17 +60,17 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-             if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                
-                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission. ACCESS_FINE_LOCATION},
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSIONS_REQUEST_LOCATION);
             }
 
-            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission. ACCESS_COARSE_LOCATION},
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                         MY_PERMISSIONS_REQUEST_LOCATION2);
             }
         }
@@ -89,50 +89,44 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
         //Getting a picture: Assuming the person has already taken pictures
 
         File path = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File files []=path.listFiles();
+        File files[] = path.listFiles();
         Random rand = new Random();
-
-
-
-
 
 
         //Going through the list of files and adding to each individual arrayList
         //so that we have every file categorized in it's own ArrayList
-        for (int i=0;i<files.length;i++)
-        {
-            if(files[i].getName().contains("tshirt")) {
+        for (int i = 0; i < files.length; i++) {
+            if (files[i].getName().contains("tshirt")) {
                 tshirts.add(files[i]);
             }
-            if(files[i].getName().contains("tanktop")) {
+            if (files[i].getName().contains("tanktop")) {
                 tanktop.add(files[i]);
             }
-            if(files[i].getName().contains("sweater")) {
+            if (files[i].getName().contains("sweater")) {
                 clothesTopCount[2] += 1;
                 sweaters.add(files[i]);
             }
-            if(files[i].getName().contains("longsleeves")) {
+            if (files[i].getName().contains("longsleeves")) {
                 clothesTopCount[3] += 1;
                 longsleeve.add(files[i]);
             }
-            if(files[i].getName().contains("dress")) {
+            if (files[i].getName().contains("dress")) {
                 clothesTopCount[4] += 1;
                 dress.add(files[i]);
             }
-            if(files[i].getName().contains("shorts")) {
+            if (files[i].getName().contains("shorts")) {
                 clothesBottomCount[0] += 1;
                 shorts.add(files[i]);
             }
-            if(files[i].getName().contains("pants")) {
+            if (files[i].getName().contains("pants")) {
                 clothesBottomCount[1] += 1;
                 pants.add(files[i]);
             }
-            if(files[i].getName().contains("skirt")) {
+            if (files[i].getName().contains("skirt")) {
                 clothesBottomCount[2] += 1;
                 skirts.add(files[i]);
             }
         }
-
 
 
         //This sets the first imageview to a random tshirt
@@ -166,7 +160,6 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
 
 
         */
-
 
 
     }
@@ -209,46 +202,42 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
 
     }
 
-    void setRandomClothing(ArrayList<File> files, ImageView iv,Random rand)
-    {
-        File f= files.get(rand.nextInt(files.size()));
+    void setRandomClothing(ArrayList<File> files, ImageView iv, Random rand) {
+        File f = files.get(rand.nextInt(files.size()));
         Uri uri = Uri.fromFile(f);
         iv.setImageURI(uri);
     }
-    
-     @Override
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission. ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
                         //Request location updates:
-                        locationmanager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
                     } //end if
                 } //end if
-                else 
-                {
+                else {
 
                 }
                 return;
             }
-
-        }
-        case MY_PERMISSIONS_REQUEST_LOCATION2: {
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-                    {
+            case MY_PERMISSIONS_REQUEST_LOCATION2: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         //Request location updates:
-                        locationmanager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
                     }
+                } else {
+                }
+
+                return;
             }
-            else
-            {
-            }
-            return;
         }
     }
+
 }
 
 
