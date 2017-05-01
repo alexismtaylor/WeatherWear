@@ -116,6 +116,8 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
                 sweaters.add(imageBitmap);
                 createExternalStoragePrivatePicture(imageBitmap, sweaters,"sweater"); //testing
             }
+
+            ivPictureTaken.setImageResource(R.drawable.unknown); //reset picture
         }
         else{
             Toast.makeText(this, "Please select a valid category.", Toast.LENGTH_SHORT).show();

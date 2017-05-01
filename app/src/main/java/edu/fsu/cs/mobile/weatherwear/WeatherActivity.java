@@ -50,6 +50,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
     //private OWService mOWService = new OWService("f2fa88c980099cd1a16b755da543b93d");
     LocationManager locationManager;
     Coord coordinate = new Coord();
+    Random rand;
 
 
     @Override
@@ -89,7 +90,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
 
         File path = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File files[] = path.listFiles();
-        Random rand = new Random();
+        rand = new Random();
 
 
         //Going through the list of files and adding to each individual arrayList
@@ -194,6 +195,114 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
                 else
                 {//default weather icon
                     ivWeatherIcon.setImageResource(R.drawable.logo);
+                }
+
+                if(Double.parseDouble(weather_temperature.replace("°","")) >= 70 && Double.parseDouble(weather_temperature.replace("°","")) < 85) //if temp greater than 70 and less than 85
+                {
+                    if(weather_description.equals("Clear") || weather_description.equals("Clouds"))
+                    { //sunny and 70+
+                        if(tshirts.size() != 0)
+                        {
+                            setRandomClothing(tshirts,ivPic1,rand);
+                        }
+                        else if(tanktop.size() != 0)//no tshirts, try tank tops
+                        {
+                            setRandomClothing(tanktop,ivPic1,rand);
+                        }
+                        else//no applicable shirts added
+                        {
+                            ivPic1.setImageResource(R.drawable.tshirt);
+                        }
+
+                        if(shorts.size() != 0)
+                        {
+                            setRandomClothing(shorts,ivPic2,rand);
+                        }
+                        else//no shorts add default
+                        {
+                            ivPic2.setImageResource(R.drawable.shorts);
+                        }
+                    }
+                    else
+                    {//70+ and rainy/stormy
+                        if(tshirts.size() != 0)
+                        {//set tshirt
+                            setRandomClothing(tshirts,ivPic1,rand);
+                        }
+                        else if(longsleeve.size() != 0)
+                        {
+                            setRandomClothing(longsleeve,ivPic1,rand);
+                        }
+                        else //no applicable shirts added
+                        {//use default
+                            ivPic1.setImageResource(R.drawable.tshirt);
+                        }
+
+                        if(shorts.size() != 0)
+                        {
+                            setRandomClothing(shorts,ivPic2,rand);
+                        }
+                        else//no shorts add default
+                        {
+                            ivPic2.setImageResource(R.drawable.shorts);
+                        }
+                    }
+                }
+                else if(Double.parseDouble(weather_temperature.replace("°","")) >= 85)
+                {
+                    if(tanktop.size() != 0)//tank tops
+                    {
+                        if(shorts.size() != 0)
+                        {
+                            setRandomClothing(shorts,ivPic2,rand);
+                        }
+                        else
+                        {//no shorts, default
+                            ivPic2.setImageResource(R.drawable.shorts);
+                        }
+                    }
+                    else
+                    {//default tank top
+                        ivPic1.setImageResource(R.drawable.tanktop);
+                    }
+                }
+                else //cold, wear pants and long sleeves
+                {
+                    if(pants.size() != 0)
+                    {
+                        setRandomClothing(pants,ivPic2,rand);
+
+                        if(longsleeve.size() != 0 && Double.parseDouble(weather_temperature.replace("°","")) > 60)
+                        {
+                            setRandomClothing(longsleeve,ivPic1,rand);
+                        }
+                        else if(sweaters.size() != 0 && Double.parseDouble(weather_temperature.replace("°","")) <= 60)
+                        {//either no long sleeves or weather was less than 60
+                            setRandomClothing(sweaters,ivPic1,rand);
+                        }
+                        else //no sweaters or long sleeves
+                        {
+                            ivPic1.setImageResource(R.drawable.longsleeve);
+                        }
+
+                    }
+                    else
+                    {//default pants
+                        ivPic2.setImageResource(R.drawable.pants);
+
+                        if(longsleeve.size() != 0 && Double.parseDouble(weather_temperature.replace("°","")) > 60)
+                        {
+                            setRandomClothing(longsleeve,ivPic1,rand);
+                        }
+                        else if(sweaters.size() != 0 && Double.parseDouble(weather_temperature.replace("°","")) <= 60)
+                        {//either no long sleeves or weather was less than 60
+                            setRandomClothing(sweaters,ivPic1,rand);
+                        }
+                        else //no sweaters or long sleeves
+                        {
+                            ivPic1.setImageResource(R.drawable.longsleeve);
+                        }
+                    }
                 }
             }
         });
