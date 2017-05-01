@@ -162,7 +162,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
         coordinate.setLat(location.getLatitude());
         coordinate.setLon(location.getLongitude());
 
-        Toast.makeText(getApplicationContext(), "it worked?", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "it worked?", Toast.LENGTH_LONG).show();
 
         Function.placeIdTask asyncTask =new Function.placeIdTask(new Function.AsyncResponse() {
             public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_rain) {
