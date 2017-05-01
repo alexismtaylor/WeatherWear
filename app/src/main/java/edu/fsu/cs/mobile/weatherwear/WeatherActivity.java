@@ -47,7 +47,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
     TextView tvRain, tvTemp, tvCondition;
     ImageView ivWeatherIcon, ivPic1, ivPic2;
 
-    private OWService mOWService = new OWService("f2fa88c980099cd1a16b755da543b93d");
+    //private OWService mOWService = new OWService("f2fa88c980099cd1a16b755da543b93d");
     LocationManager locationManager;
     Coord coordinate = new Coord();
 
@@ -59,24 +59,23 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (checkLocationPermission()) {
+            if (ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission. ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
 
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
+                //Request location updates:
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
             }
 
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission. ACCESS_COARSE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
 
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION2);
+                //Request location updates:
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
             }
         }
-
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-
 
         tvRain = (TextView) findViewById(R.id.tvRain);
         tvTemp = (TextView) findViewById(R.id.tvTemp);
@@ -153,12 +152,6 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
             ivWeatherIcon.setImageResource(R.drawable.thunderstorm);
         else
             ivWeatherIcon.setImageResource(R.drawable.unknown);
-
-        tvRain.setText(); //add rain percentage from API
-        tvTemp.setText(); //add temperature from API
-        tvCondition.setText(); //add climate condition from API
-
-
         */
 
 
@@ -171,6 +164,41 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
 
         Toast.makeText(getApplicationContext(), "it worked?", Toast.LENGTH_LONG).show();
 
+        Function.placeIdTask asyncTask =new Function.placeIdTask(new Function.AsyncResponse() {
+            public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_rain) {
+
+                tvCondition.setText(weather_description);
+                tvTemp.setText(weather_temperature);
+                tvRain.setText("Rain: "+ weather_rain);
+                if(weather_description.equals("Thunderstorm"))
+                {
+                    ivWeatherIcon.setImageResource(R.drawable.thunderstorm);
+                }
+                else if(weather_description.equals("Drizzle"))
+                {
+                    ivWeatherIcon.setImageResource(R.drawable.rainy);
+                }
+                else if(weather_description.equals("Rain"))
+                {
+                    ivWeatherIcon.setImageResource(R.drawable.rainy);
+
+                }
+                else if(weather_description.equals("Clear"))
+                {
+                    ivWeatherIcon.setImageResource(R.drawable.sunny);
+                }
+                else if(weather_description.equals("Clouds"))
+                {
+                    ivWeatherIcon.setImageResource(R.drawable.mostlycloudy);
+                }
+                else
+                {//default weather icon
+                    ivWeatherIcon.setImageResource(R.drawable.logo);
+                }
+            }
+        });
+        asyncTask.execute(String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude())); //  asyncTask.execute("Latitude", "Longitude")
+/*
         mOWService.getCurrentDayForecast(coordinate, new OWRequestListener<CurrentWeather>() {
             @Override
             public void onResponse(OWResponse<CurrentWeather> response) {
@@ -184,7 +212,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
             public void onFailure(Throwable t) {
                 Log.e("error", "Current Day Forecast request failed: " + t.getMessage());
             }
-        });
+        });*/
     }
 
     @Override
@@ -200,6 +228,51 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
     @Override
     public void onProviderDisabled(String s) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (checkLocationPermission()) {
+            if (ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission. ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission. ACCESS_COARSE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            }
+        }
+
+    }
+
+
+    public boolean checkLocationPermission()
+    {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission. ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission. ACCESS_COARSE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION2);
+            }
+            return true;
+        }
+        else
+        {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+        }
+
+        return false;
     }
 
     void setRandomClothing(ArrayList<File> files, ImageView iv, Random rand) {
