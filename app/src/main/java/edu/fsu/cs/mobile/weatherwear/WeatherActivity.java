@@ -128,34 +128,6 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
             }
         }
 
-
-        //This sets the first imageview to a random tshirt
-        //setRandomClothing(tshirts,ivPic1,rand);
-
-        //This sets the second imageview to a random pair of shorts
-        //setRandomClothing(shorts,ivPic2,rand);
-
-
-        /*
-        Get random clothes and update pic1 and pic2
-
-        Get the climate to update the icon (replace climate with variable from weather API that represents climate)
-
-        if(climate == "sunny")
-            ivWeatherIcon.setImageResource(R.drawable.sunny);
-        else if(climate == "mostly cloudy" || climate == "cloudy")
-            ivWeatherIcon.setImageResource(R.drawable.mostlycloudy);
-        else if(climate == "partly cloudy")
-            ivWeatherIcon.setImageResource(R.drawable.partlycloudy);
-        else if(climate == "rainy")
-            ivWeatherIcon.setImageResource(R.drawable.rainy);
-        else if(climate == "thunderstorms")
-            ivWeatherIcon.setImageResource(R.drawable.thunderstorm);
-        else
-            ivWeatherIcon.setImageResource(R.drawable.unknown);
-        */
-
-
     }
 
     @Override
