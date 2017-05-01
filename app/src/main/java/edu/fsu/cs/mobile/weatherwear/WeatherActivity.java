@@ -29,6 +29,9 @@ import az.openweatherapi.model.gson.common.Coord;
 import az.openweatherapi.model.gson.current_day.CurrentWeather;
 
 public class WeatherActivity extends AppCompatActivity implements LocationListener {
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION2 = 100;
+    
     int[] clothesTopCount = {0, 0, 0, 0, 0};
     int[] clothesBottomCount = {0, 0, 0};
     ArrayList<File> shorts = new ArrayList<>();
@@ -212,8 +215,40 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
         Uri uri = Uri.fromFile(f);
         iv.setImageURI(uri);
     }
+    
+     @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission. ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
+                        //Request location updates:
+                        locationmanager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                    } //end if
+                } //end if
+                else 
+                {
 
+                }
+                return;
+            }
+
+        }
+        case MY_PERMISSIONS_REQUEST_LOCATION2: {
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                    {
+                        //Request location updates:
+                        locationmanager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                    }
+            }
+            else
+            {
+            }
+            return;
+        }
+    }
 }
 
 
