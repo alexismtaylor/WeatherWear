@@ -1,19 +1,36 @@
 package edu.fsu.cs.mobile.weatherwear;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class WeatherActivity extends AppCompatActivity {
-    int [] clothesTopCount={0,0,0,0,0};
-    int [] clothesBottomCount={0,0,0};
+import az.openweatherapi.OWService;
+import az.openweatherapi.listener.OWRequestListener;
+import az.openweatherapi.model.OWResponse;
+import az.openweatherapi.model.gson.common.Coord;
+import az.openweatherapi.model.gson.current_day.CurrentWeather;
+
+public class WeatherActivity extends AppCompatActivity implements LocationListener {
+    int[] clothesTopCount = {0, 0, 0, 0, 0};
+    int[] clothesBottomCount = {0, 0, 0};
     ArrayList<File> shorts = new ArrayList<>();
     ArrayList<File> pants = new ArrayList<>();
     ArrayList<File> tshirts = new ArrayList<>();
@@ -22,14 +39,36 @@ public class WeatherActivity extends AppCompatActivity {
     ArrayList<File> tanktop = new ArrayList<>();
     ArrayList<File> skirts = new ArrayList<>();
     ArrayList<File> sweaters = new ArrayList<>();
-    String [] clothesTop={"tshirt","tanktop","sweater","longsleeves","dress"};
-    String [] clothesBottom={"shorts","pants","skirt"};
+    String[] clothesTop = {"tshirt", "tanktop", "sweater", "longsleeves", "dress"};
+    String[] clothesBottom = {"shorts", "pants", "skirt"};
     TextView tvRain, tvTemp, tvCondition;
     ImageView ivWeatherIcon, ivPic1, ivPic2;
+
+    private OWService mOWService = new OWService("f2fa88c980099cd1a16b755da543b93d");
+    LocationManager locationManager;
+    Coord coordinate = new Coord();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
 
         tvRain = (TextView) findViewById(R.id.tvRain);
         tvTemp = (TextView) findViewById(R.id.tvTemp);
@@ -44,6 +83,11 @@ public class WeatherActivity extends AppCompatActivity {
         File path = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File files []=path.listFiles();
         Random rand = new Random();
+
+
+
+
+
 
         //Going through the list of files and adding to each individual arrayList
         //so that we have every file categorized in it's own ArrayList
@@ -84,10 +128,10 @@ public class WeatherActivity extends AppCompatActivity {
 
 
         //This sets the first imageview to a random tshirt
-        setRandomClothing(tshirts,ivPic1,rand);
+        //setRandomClothing(tshirts,ivPic1,rand);
 
         //This sets the second imageview to a random pair of shorts
-        setRandomClothing(shorts,ivPic2,rand);
+        //setRandomClothing(shorts,ivPic2,rand);
 
 
         /*
@@ -114,6 +158,47 @@ public class WeatherActivity extends AppCompatActivity {
 
 
         */
+
+
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        coordinate.setLat(location.getLatitude());
+        coordinate.setLon(location.getLongitude());
+
+        Toast.makeText(getApplicationContext(), "it worked?", Toast.LENGTH_LONG).show();
+
+        mOWService.getCurrentDayForecast(coordinate, new OWRequestListener<CurrentWeather>() {
+            @Override
+            public void onResponse(OWResponse<CurrentWeather> response) {
+                CurrentWeather currentWeather = response.body();
+                tvTemp.setText(currentWeather.getMain().getTemp().toString());
+                tvRain.setText(currentWeather.getRain().toString());
+                tvCondition.setText(currentWeather.getCod()); // may need to match against conditions in strings.xml
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e("error", "Current Day Forecast request failed: " + t.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
     }
 
     void setRandomClothing(ArrayList<File> files, ImageView iv,Random rand)
@@ -124,5 +209,6 @@ public class WeatherActivity extends AppCompatActivity {
     }
 
 
-
 }
+
+
