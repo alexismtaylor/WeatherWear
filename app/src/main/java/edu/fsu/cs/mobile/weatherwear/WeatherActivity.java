@@ -31,7 +31,7 @@ import az.openweatherapi.model.gson.current_day.CurrentWeather;
 public class WeatherActivity extends AppCompatActivity implements LocationListener {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION2 = 100;
-
+    public static final int REQUEST_TIME=1000*60*30;        //requests the time every 30 minutes
     int[] clothesTopCount = {0, 0, 0, 0, 0};
     int[] clothesBottomCount = {0, 0, 0};
     ArrayList<File> shorts = new ArrayList<>();
@@ -66,7 +66,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
                     == PackageManager.PERMISSION_GRANTED) {
 
                 //Request location updates:
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, REQUEST_TIME, 0, this);
             }
 
             if (ActivityCompat.checkSelfPermission(this,
@@ -74,7 +74,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
                     == PackageManager.PERMISSION_GRANTED) {
 
                 //Request location updates:
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, REQUEST_TIME, 0, this);
             }
         }
 
@@ -322,7 +322,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
                     Manifest.permission. ACCESS_COARSE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
 
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, REQUEST_TIME, 0, this);
             }
         }
 
@@ -349,7 +349,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
         }
         else
         {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, REQUEST_TIME, 0, this);
 
         }
 
@@ -370,7 +370,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
                         //Request location updates:
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, REQUEST_TIME, 0, this);
                     } //end if
                 } //end if
                 else {
@@ -382,7 +382,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         //Request location updates:
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, REQUEST_TIME, 0, this);
                     }
                 } else {
                 }
