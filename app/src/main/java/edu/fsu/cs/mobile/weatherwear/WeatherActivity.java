@@ -3,7 +3,6 @@ package edu.fsu.cs.mobile.weatherwear;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -12,21 +11,15 @@ import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
-import az.openweatherapi.OWService;
-import az.openweatherapi.listener.OWRequestListener;
-import az.openweatherapi.model.OWResponse;
 import az.openweatherapi.model.gson.common.Coord;
-import az.openweatherapi.model.gson.current_day.CurrentWeather;
 
 public class WeatherActivity extends AppCompatActivity implements LocationListener {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -44,7 +37,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
     ArrayList<File> sweaters = new ArrayList<>();
     String[] clothesTop = {"tshirt", "tanktop", "sweater", "longsleeves", "dress"};
     String[] clothesBottom = {"shorts", "pants", "skirt"};
-    TextView tvRain, tvTemp, tvCondition;
+    TextView tvHumidity, tvTemp, tvCondition;
     ImageView ivWeatherIcon, ivPic1, ivPic2;
 
     //private OWService mOWService = new OWService("f2fa88c980099cd1a16b755da543b93d");
@@ -78,7 +71,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
             }
         }
 
-        tvRain = (TextView) findViewById(R.id.tvRain);
+        tvHumidity = (TextView) findViewById(R.id.tvHumidity);
         tvTemp = (TextView) findViewById(R.id.tvTemp);
         tvCondition = (TextView) findViewById(R.id.tvCondition);
         ivWeatherIcon = (ImageView) findViewById(R.id.ivWeatherIcon);
@@ -138,11 +131,11 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
         //Toast.makeText(getApplicationContext(), "it worked?", Toast.LENGTH_LONG).show();
 
         Function.placeIdTask asyncTask =new Function.placeIdTask(new Function.AsyncResponse() {
-            public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_rain) {
+            public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_humidity) {
 
                 tvCondition.setText(weather_description);
                 tvTemp.setText(weather_temperature);
-                tvRain.setText("Rain: "+ weather_rain);
+                tvHumidity.setText("Humidity: "+ weather_humidity);
                 if(weather_description.equals("Thunderstorm"))
                 {
                     ivWeatherIcon.setImageResource(R.drawable.thunderstorm);

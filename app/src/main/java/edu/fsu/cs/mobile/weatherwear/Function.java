@@ -59,17 +59,8 @@ public class Function {
                     String city = "none";
                     String description = details.getString("main");
                     String temperature = String.format("%.2f", (((main.getDouble("temp")) * 9/5) - 459.67) )+ "°";
-                    String rain;
-                    if(json.has("rain")) {
-                        JSONObject rainStuff = json.getJSONObject("rain");
-                        rain = rainStuff.getString("3h") + "%";
-                    }
-                    else
-                    {
-                        rain = "0%";
-                    }
-                    delegate.processFinish(city, description, temperature, rain);
-
+                    String humidity = String.format("%.2f", (main.getDouble("humidity"))) + "%";
+                    delegate.processFinish(city, description, temperature, humidity);
                 }
             } catch (JSONException e) {
                 //Log.e(LOG_TAG, "Cannot process JSON results", e);

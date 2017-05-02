@@ -25,9 +25,7 @@
         android:layout_marginBottom="20dp"
         android:layout_above="@+id/tvCondition"
         android:layout_toLeftOf="@+id/ivPic2"
-        android:layout_toStartOf="@+id/ivPic2"
-        android:layout_marginRight="9dp"
-        android:layout_marginEnd="9dp" />
+        android:layout_toStartOf="@+id/ivPic2" />
 
     <TextView
         android:id="@+id/tvCondition"
@@ -37,11 +35,11 @@
         android:textAlignment="center"
         android:textSize="20sp"
         android:layout_marginBottom="25dp"
-        android:layout_above="@+id/tvRain"
+        android:layout_above="@+id/tvHumidity"
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/tvRain"
+        android:id="@+id/tvHumidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="*insert % rain*"
