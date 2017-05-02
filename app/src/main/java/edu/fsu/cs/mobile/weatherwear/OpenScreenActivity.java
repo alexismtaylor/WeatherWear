@@ -25,11 +25,11 @@ public class OpenScreenActivity extends AppCompatActivity {
 
         if(files.length==0)
         {
-            weatherB.setVisibility(View.GONE);
+            weatherB.setEnabled(false);
         }
         else
         {
-            weatherB.setVisibility(View.VISIBLE);
+            weatherB.setEnabled(true);
         }
 
     }
@@ -43,11 +43,11 @@ public class OpenScreenActivity extends AppCompatActivity {
 
         if(files.length==0)
         {
-            weatherB.setVisibility(View.GONE);
+            weatherB.setEnabled(false);
         }
         else
         {
-            weatherB.setVisibility(View.VISIBLE);
+            weatherB.setEnabled(true);
         }
 
     }

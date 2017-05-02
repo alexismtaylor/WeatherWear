@@ -59,26 +59,20 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
         bTake = (Button) findViewById(R.id.bTake);          //take picture button
         ivPictureTaken = (ImageView) findViewById(R.id.ivPictureTaken);
         spinner.setOnItemSelectedListener(this);
-
-        //checkEmpty();
-
     }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-       // checkEmpty();
     }
-
-
+  
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
         item = parent.getItemAtPosition(position).toString();
         // Showing selected spinner item
         if(position != 0) {
-            Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_SHORT).show();
             location = position;
         }
         else {
@@ -88,12 +82,9 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
     }
-
+    //add picture to respective arraylist and store it in phone sd card.
     public void clickAdd(View view) {
         //add pic to arraylist
-        //File root = Environment.getExternalStorageDirectory();
-       // File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        //File cachePath = new File(root.getAbsolutePath() + "tshirt.jpg");
         if(location != 0) {
             spinner.setSelection(0); //set back to default
             if(location == 1) { //tshirts
@@ -135,9 +126,6 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
             Toast.makeText(this, "Please select a valid category.", Toast.LENGTH_SHORT).show();
         }
 
-
-      //  checkEmpty();
-
     }
 
     public void clickTake(View view){
@@ -148,6 +136,7 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
         openGalleryIntent();
     }
 
+    //to open the picture
     private void dispatchTakePictureIntent(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -157,7 +146,7 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
     }
 
 
-
+    //to open the gallery app
     private void openGalleryIntent(){
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -165,7 +154,7 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_IMAGE);
     }
 
-    @Override
+    @Override //for getting the actual picture from the camera or gallery app
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
             Bundle extras = data.getExtras();
@@ -199,7 +188,6 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
 
 
         OutputStream fOutputStream = null;
-        //File file = new File(path + "/Captures/", "screen.jpg");
         try {
             fOutputStream = new FileOutputStream(file);
 
@@ -220,12 +208,5 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
 
 
     }
-
-
-
-
-    //End testing
-
-
 
 }

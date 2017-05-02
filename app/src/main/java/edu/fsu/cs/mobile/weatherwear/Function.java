@@ -48,15 +48,14 @@ public class Function {
 
             return jsonWeather;
         }
-        @Override
+        @Override //this function actually gets all of the data from the api call
         protected void onPostExecute(JSONObject json) {
             try {
                 if(json != null){
                     JSONObject details = json.getJSONArray("weather").getJSONObject(0);
                     JSONObject main = json.getJSONObject("main");
                     DateFormat df = DateFormat.getDateTimeInstance();
-
-                    String city = "none";
+                    String city = json.getString("name");
                     String description = details.getString("main");
                     String temperature = String.format("%.2f", (((main.getDouble("temp")) * 9/5) - 459.67) )+ "°";
                     String humidity = String.format("%.2f", (main.getDouble("humidity"))) + "%";
@@ -68,7 +67,7 @@ public class Function {
             }
 
         }
-    }
+    } //calls the api
     public static JSONObject getWeatherJSON(String lat, String lon){
         try {
             URL url = new URL(String.format(OPEN_WEATHER_MAP_URL, lat, lon));

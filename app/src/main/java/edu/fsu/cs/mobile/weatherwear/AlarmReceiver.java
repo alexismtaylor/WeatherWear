@@ -12,6 +12,7 @@ import android.app.Notification;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
+    //when an alarm was received, push this notification
     @Override
     public void onReceive(Context context, Intent intent) {
         Intent notificationIntent = new Intent(context, WeatherActivity.class);

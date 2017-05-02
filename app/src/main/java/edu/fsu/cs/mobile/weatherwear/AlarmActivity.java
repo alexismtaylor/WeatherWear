@@ -54,7 +54,7 @@ public class AlarmActivity extends AppCompatActivity {
         timePicker.setCurrentHour(0);
         timePicker.setEnabled(false);
     }
-
+    //edit button, allows user to edit timepicker
     public void clickEdit(View view) {
         if(editTime == true){
             bEdit.setText("Edit");
@@ -71,7 +71,7 @@ public class AlarmActivity extends AppCompatActivity {
             minute = timePicker.getCurrentMinute();            //get minutes
         }
     }
-
+    //schedule alarm, this actually sets the alarm and calls the broadcast receiver
     public void scheduleAlarm()
     {
         hour = timePicker.getCurrentHour();                 //get hour
