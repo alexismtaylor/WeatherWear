@@ -61,6 +61,7 @@ public class Function {
                     String temperature = String.format("%.2f", (((main.getDouble("temp")) * 9/5) - 459.67) )+ "°";
                     String humidity = String.format("%.2f", (main.getDouble("humidity"))) + "%";
                     delegate.processFinish(city, description, temperature, humidity);
+
                 }
             } catch (JSONException e) {
                 //Log.e(LOG_TAG, "Cannot process JSON results", e);

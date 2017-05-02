@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.view.View;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
 
@@ -58,7 +59,67 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
         bTake = (Button) findViewById(R.id.bTake);          //take picture button
         ivPictureTaken = (ImageView) findViewById(R.id.ivPictureTaken);
         spinner.setOnItemSelectedListener(this);
+
+        //checkEmpty();
+
     }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+       // checkEmpty();
+    }
+
+/*
+    public void checkEmpty()
+    {
+        String[] spinneritems = {"T-Shirts (EMPTY)",
+                "Shorts (EMPTY)",
+                "Pants (EMPTY",
+                "Long-Sleeve Shirts (EMPTY)","Dresses (EMPTY)","Tank Tops (EMPTY)","Skirts (EMPTY)",
+                "Sweaters (EMPTY)"};
+
+
+
+        spinner = (Spinner) findViewById(R.id.spinner);
+
+        if(tshirts.size()!=0)
+        {
+        }
+
+        if(shorts.size()!=0)
+        {
+        }
+
+        if(pants.size()!=0)
+        {
+        }
+
+        if(longsleeve.size()!=0)
+        {
+        }
+
+        if(dress.size()!=0)
+        {
+        }
+
+        if(tanktop.size()!=0)
+        {
+        }
+
+        if(skirts.size()!=0)
+        {
+        }
+
+        if(sweaters.size()!=0)
+        {
+        }
+
+
+    }
+
+*/
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -122,6 +183,10 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
         else{
             Toast.makeText(this, "Please select a valid category.", Toast.LENGTH_SHORT).show();
         }
+
+
+      //  checkEmpty();
+
     }
 
     public void clickTake(View view){

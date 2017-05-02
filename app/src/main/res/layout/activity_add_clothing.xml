@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/closet">
+
 
     <TextView
         android:id="@+id/tvUpload"
@@ -11,6 +13,11 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
+        android:shadowColor="@color/black"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:textColor="@color/white"
+        android:shadowRadius="1"
         android:text="Upload picture and select category:"
         android:textAlignment="center"
         android:textSize="30sp" />
@@ -27,7 +34,9 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_width="wrap_content"
+        android:spinnerMode="dropdown"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
         android:entries="@array/categories"
@@ -67,4 +76,5 @@
         android:layout_above="@+id/bAdd"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="11dp" />
+
 </RelativeLayout>
