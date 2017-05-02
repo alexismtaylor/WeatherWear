@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.view.View;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
 
@@ -58,7 +59,18 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
         bTake = (Button) findViewById(R.id.bTake);          //take picture button
         ivPictureTaken = (ImageView) findViewById(R.id.ivPictureTaken);
         spinner.setOnItemSelectedListener(this);
+
+        //checkEmpty();
+
     }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+       // checkEmpty();
+    }
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -122,6 +134,10 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
         else{
             Toast.makeText(this, "Please select a valid category.", Toast.LENGTH_SHORT).show();
         }
+
+
+      //  checkEmpty();
+
     }
 
     public void clickTake(View view){

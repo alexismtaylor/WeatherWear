@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/layout">
 
     <ImageView
         android:id="@+id/ivWeatherIcon"
@@ -17,35 +18,16 @@
         android:layout_above="@+id/tvTemp" />
 
     <TextView
-        android:id="@+id/tvTemp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="*insert temp*"
-        android:textSize="20sp"
-        android:layout_marginBottom="20dp"
-        android:layout_above="@+id/tvCondition"
-        android:layout_toLeftOf="@+id/ivPic2"
-        android:layout_toStartOf="@+id/ivPic2" />
-
-    <TextView
         android:id="@+id/tvCondition"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="*insert weather condition*"
+        android:textColor="@color/black"
+        android:text="Finding Current Conditions..."
+        android:fontFamily="sans-serif-thin"
         android:textAlignment="center"
         android:textSize="20sp"
         android:layout_marginBottom="25dp"
         android:layout_above="@+id/tvHumidity"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:id="@+id/tvHumidity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="*insert % rain*"
-        android:textSize="20sp"
-        android:layout_marginBottom="19dp"
-        android:layout_above="@+id/ivPic1"
         android:layout_centerHorizontal="true" />
 
     <ImageView
@@ -70,5 +52,30 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="15dp" />
+
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/tvTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-thin"
+        android:text="Finding Current Temperature..."
+        android:textSize="20sp"
+        android:layout_marginBottom="22dp"
+        android:layout_above="@+id/tvCondition"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/tvHumidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-thin"
+        android:text="Loading Humidity..."
+        android:textSize="20sp"
+        android:layout_marginBottom="20dp"
+        android:layout_above="@+id/ivPic1"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
 
