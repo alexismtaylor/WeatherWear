@@ -3,35 +3,22 @@ package edu.fsu.cs.mobile.weatherwear;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
-
-import org.w3c.dom.Text;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
-import az.openweatherapi.OWService;
-import az.openweatherapi.listener.OWRequestListener;
-import az.openweatherapi.model.OWResponse;
-import az.openweatherapi.model.gson.common.Coord;
-import az.openweatherapi.model.gson.current_day.CurrentWeather;
 
 public class WeatherActivity extends AppCompatActivity implements LocationListener {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -49,14 +36,11 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
     ArrayList<File> sweaters = new ArrayList<>();
     String[] clothesTop = {"tshirt", "tanktop", "sweater", "longsleeves", "dress"};
     String[] clothesBottom = {"shorts", "pants", "skirt"};
-    TextView tvHumidity, tvTemp, tvCondition;
+    TextView tvHumidity, tvTemp, tvCondition, tvCity;
     ImageView ivWeatherIcon, ivPic1, ivPic2;
     RelativeLayout layout;
 
-
-    //private OWService mOWService = new OWService("f2fa88c980099cd1a16b755da543b93d");
     LocationManager locationManager;
-    Coord coordinate = new Coord();
     Random rand;
 
 
@@ -67,7 +51,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        if (checkLocationPermission()) {
+        if (checkLocationPermission()) { //check if permissions have already ben granted
             if (ActivityCompat.checkSelfPermission(this,
                     Manifest.permission. ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
@@ -88,6 +72,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
         tvHumidity = (TextView) findViewById(R.id.tvHumidity);
         tvTemp = (TextView) findViewById(R.id.tvTemp);
         tvCondition = (TextView) findViewById(R.id.tvCondition);
+        tvCity = (TextView) findViewById(R.id.tvCity);
         ivWeatherIcon = (ImageView) findViewById(R.id.ivWeatherIcon);
         ivPic1 = (ImageView) findViewById(R.id.ivPic1);
         ivPic2 = (ImageView) findViewById(R.id.ivPic2);
@@ -139,34 +124,28 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
 
 
     }
-
+    //for when location is changed, this sets all of the UI changes, updates textviews and pictures from the API
     @Override
     public void onLocationChanged(Location location) {
-        coordinate.setLat(location.getLatitude());
-        coordinate.setLon(location.getLongitude());
-
-        //Toast.makeText(getApplicationContext(), "it worked?", Toast.LENGTH_LONG).show();
-
         Function.placeIdTask asyncTask =new Function.placeIdTask(new Function.AsyncResponse() {
             public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_humidity) {
 
 
 
+                tvCity.setText(weather_city);
                 tvCondition.setText(weather_description);
                 tvTemp.setText(weather_temperature);
                 tvHumidity.setText("Humidity: "+ weather_humidity);
 
 
-                ivWeatherIcon.setImageResource(0);
 
+                tvCity.setTextColor(getResources().getColor(R.color.white));
                 tvCondition.setTextColor(getResources().getColor(R.color.white));
                 tvHumidity.setTextColor(getResources().getColor(R.color.white));
                 tvTemp.setTextColor(getResources().getColor(R.color.white));
+                tvTemp.setGravity(Gravity.CENTER);
 
-               tvCondition.setTextSize(30);
-               tvHumidity.setTextSize(30);
-               tvTemp.setTextSize(45);
-
+               tvCity.setTextAppearance(getApplicationContext(), R.style.shadowText);
                tvCondition.setTextAppearance(getApplicationContext(), R.style.shadowText);
                tvHumidity.setTextAppearance(getApplicationContext(), R.style.shadowText);
                tvTemp.setTextAppearance(getApplicationContext(), R.style.shadowText);
@@ -317,21 +296,6 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
             }
         });
         asyncTask.execute(String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude())); //  asyncTask.execute("Latitude", "Longitude")
-/*
-        mOWService.getCurrentDayForecast(coordinate, new OWRequestListener<CurrentWeather>() {
-            @Override
-            public void onResponse(OWResponse<CurrentWeather> response) {
-                CurrentWeather currentWeather = response.body();
-                tvTemp.setText(currentWeather.getMain().getTemp().toString());
-                tvRain.setText(currentWeather.getRain().toString());
-                tvCondition.setText(currentWeather.getCod()); // may need to match against conditions in strings.xml
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.e("error", "Current Day Forecast request failed: " + t.getMessage());
-            }
-        });*/
     }
 
     @Override
@@ -348,7 +312,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
     public void onProviderDisabled(String s) {
 
     }
-
+    //on resume, also checks permissions
     @Override
     protected void onResume() {
         super.onResume();
@@ -366,7 +330,8 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
 
     }
 
-
+    //function called in other functions to check if location permissions have been accepted
+    //returns true if permissions exist, false otherwise
     public boolean checkLocationPermission()
     {
 
@@ -393,13 +358,13 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
 
         return false;
     }
-
+    //This actually sets the clothing items to the respective imageview
     void setRandomClothing(ArrayList<File> files, ImageView iv, Random rand) {
         File f = files.get(rand.nextInt(files.size()));
         Uri uri = Uri.fromFile(f);
         iv.setImageURI(uri);
     }
-
+    //for when the user is requesting location permissions, this receives this request
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
