@@ -24,8 +24,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION2 = 100;
     public static final int REQUEST_TIME=1000*60*30;        //requests the time every 30 minutes
-    int[] clothesTopCount = {0, 0, 0, 0, 0};
-    int[] clothesBottomCount = {0, 0, 0};
+
     ArrayList<File> shorts = new ArrayList<>();
     ArrayList<File> pants = new ArrayList<>();
     ArrayList<File> tshirts = new ArrayList<>();
@@ -95,27 +94,27 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
                 tanktop.add(files[i]);
             }
             if (files[i].getName().contains("sweater")) {
-                clothesTopCount[2] += 1;
+
                 sweaters.add(files[i]);
             }
             if (files[i].getName().contains("longsleeves")) {
-                clothesTopCount[3] += 1;
+
                 longsleeve.add(files[i]);
             }
             if (files[i].getName().contains("dress")) {
-                clothesTopCount[4] += 1;
+
                 dress.add(files[i]);
             }
             if (files[i].getName().contains("shorts")) {
-                clothesBottomCount[0] += 1;
+
                 shorts.add(files[i]);
             }
             if (files[i].getName().contains("pants")) {
-                clothesBottomCount[1] += 1;
+
                 pants.add(files[i]);
             }
             if (files[i].getName().contains("skirt")) {
-                clothesBottomCount[2] += 1;
+
                 skirts.add(files[i]);
             }
         }
