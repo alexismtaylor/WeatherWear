@@ -3,23 +3,35 @@ package edu.fsu.cs.mobile.weatherwear;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
+import az.openweatherapi.OWService;
+import az.openweatherapi.listener.OWRequestListener;
+import az.openweatherapi.model.OWResponse;
 import az.openweatherapi.model.gson.common.Coord;
+import az.openweatherapi.model.gson.current_day.CurrentWeather;
 
 public class WeatherActivity extends AppCompatActivity implements LocationListener {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -39,6 +51,8 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
     String[] clothesBottom = {"shorts", "pants", "skirt"};
     TextView tvHumidity, tvTemp, tvCondition;
     ImageView ivWeatherIcon, ivPic1, ivPic2;
+    RelativeLayout layout;
+
 
     //private OWService mOWService = new OWService("f2fa88c980099cd1a16b755da543b93d");
     LocationManager locationManager;
@@ -77,7 +91,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
         ivWeatherIcon = (ImageView) findViewById(R.id.ivWeatherIcon);
         ivPic1 = (ImageView) findViewById(R.id.ivPic1);
         ivPic2 = (ImageView) findViewById(R.id.ivPic2);
-
+        layout = (RelativeLayout) findViewById(R.id.layout);
 
         //Getting a picture: Assuming the person has already taken pictures
 
@@ -121,6 +135,9 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
             }
         }
 
+
+
+
     }
 
     @Override
@@ -133,33 +150,61 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
         Function.placeIdTask asyncTask =new Function.placeIdTask(new Function.AsyncResponse() {
             public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_humidity) {
 
+
+
                 tvCondition.setText(weather_description);
                 tvTemp.setText(weather_temperature);
                 tvHumidity.setText("Humidity: "+ weather_humidity);
+
+
+                ivWeatherIcon.setImageResource(0);
+
+                tvCondition.setTextColor(getResources().getColor(R.color.white));
+                tvHumidity.setTextColor(getResources().getColor(R.color.white));
+                tvTemp.setTextColor(getResources().getColor(R.color.white));
+
+               tvCondition.setTextSize(30);
+               tvHumidity.setTextSize(30);
+               tvTemp.setTextSize(45);
+
+               tvCondition.setTextAppearance(getApplicationContext(), R.style.shadowText);
+               tvHumidity.setTextAppearance(getApplicationContext(), R.style.shadowText);
+               tvTemp.setTextAppearance(getApplicationContext(), R.style.shadowText);
+
+
+
                 if(weather_description.equals("Thunderstorm"))
                 {
-                    ivWeatherIcon.setImageResource(R.drawable.thunderstorm);
+                 //   ivWeatherIcon.setImageResource(R.drawable.thunderstorm);
+                    layout.setBackgroundDrawable(getResources().getDrawable(R.drawable.thndr));
+
                 }
                 else if(weather_description.equals("Drizzle"))
                 {
-                    ivWeatherIcon.setImageResource(R.drawable.rainy);
+                  //  ivWeatherIcon.setImageResource(R.drawable.thunderstorm);
+                    layout.setBackgroundDrawable(getResources().getDrawable(R.drawable.rain));
+
                 }
                 else if(weather_description.equals("Rain"))
                 {
-                    ivWeatherIcon.setImageResource(R.drawable.rainy);
-
+                //    ivWeatherIcon.setImageResource(R.drawable.thunderstorm);
+                    layout.setBackgroundDrawable(getResources().getDrawable(R.drawable.rain));
                 }
                 else if(weather_description.equals("Clear"))
                 {
-                    ivWeatherIcon.setImageResource(R.drawable.sunny);
+                //    ivWeatherIcon.setImageResource(R.drawable.thunderstorm);
+                    layout.setBackgroundDrawable(getResources().getDrawable(R.drawable.clear));
+
                 }
                 else if(weather_description.equals("Clouds"))
                 {
-                    ivWeatherIcon.setImageResource(R.drawable.mostlycloudy);
+              //      ivWeatherIcon.setImageResource(R.drawable.thunderstorm);
+                    layout.setBackgroundDrawable(getResources().getDrawable(R.drawable.clouds));
+
                 }
                 else
                 {//default weather icon
-                    ivWeatherIcon.setImageResource(R.drawable.logo);
+                    ivWeatherIcon.setImageResource(R.drawable.logo2);
                 }
 
                 if(Double.parseDouble(weather_temperature.replace("°","")) >= 70 && Double.parseDouble(weather_temperature.replace("°","")) < 85) //if temp greater than 70 and less than 85
