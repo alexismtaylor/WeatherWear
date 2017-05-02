@@ -59,9 +59,6 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
         bTake = (Button) findViewById(R.id.bTake);          //take picture button
         ivPictureTaken = (ImageView) findViewById(R.id.ivPictureTaken);
         spinner.setOnItemSelectedListener(this);
-
-        //checkEmpty();
-
     }
 
     @Override
@@ -69,7 +66,7 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
     {
         super.onResume();
     }
-    //listener for spinner
+  
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
@@ -88,9 +85,6 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
     //add picture to respective arraylist and store it in phone sd card.
     public void clickAdd(View view) {
         //add pic to arraylist
-        //File root = Environment.getExternalStorageDirectory();
-       // File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        //File cachePath = new File(root.getAbsolutePath() + "tshirt.jpg");
         if(location != 0) {
             spinner.setSelection(0); //set back to default
             if(location == 1) { //tshirts
@@ -194,7 +188,6 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
 
 
         OutputStream fOutputStream = null;
-        //File file = new File(path + "/Captures/", "screen.jpg");
         try {
             fOutputStream = new FileOutputStream(file);
 
