@@ -89,35 +89,43 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
             spinner.setSelection(0); //set back to default
             if(location == 1) { //tshirts
                 tshirts.add(imageBitmap);
-                createExternalStoragePrivatePicture(imageBitmap,tshirts, "tshirt"); //testing
+                //This adds the picture to the private pictures directory called as tshirtX.jpg, where X is some number
+                createExternalStoragePrivatePicture(imageBitmap,tshirts, "tshirt");
             }
             else if(location == 2) { //shorts
                 shorts.add(imageBitmap);
+                //This adds the picture to the private pictures directory called as shortsX.jpg, where X is some number
                 createExternalStoragePrivatePicture(imageBitmap,shorts, "shorts"); //testing
             }
             else if(location == 3){ //pants
                 pants.add(imageBitmap);
-                createExternalStoragePrivatePicture(imageBitmap,pants, "pants"); //testing
+                //This adds the picture to the private pictures directory called as pantsX.jpg, where X is some number
+                createExternalStoragePrivatePicture(imageBitmap,pants, "pants");
             }
             else if(location == 4){ //long sleeve
                 longsleeve.add(imageBitmap);
-                createExternalStoragePrivatePicture(imageBitmap,longsleeve, "longsleeves"); //testing
+                //This adds the picture to the private pictures directory called as longsleeveX.jpg, where X is some number
+                createExternalStoragePrivatePicture(imageBitmap,longsleeve, "longsleeves");
             }
             else if(location == 5){ //dress
                 dress.add(imageBitmap);
-                createExternalStoragePrivatePicture(imageBitmap,dress ,"dress"); //testing
+                //This adds the picture to the private pictures directory called as dressX.jpg, where X is some number
+                createExternalStoragePrivatePicture(imageBitmap,dress ,"dress");
             }
             else if(location == 6){ //tanktop
                 tanktop.add(imageBitmap);
-                createExternalStoragePrivatePicture(imageBitmap, tanktop,"tanktop"); //testing
+                //This adds the picture to the private pictures directory called as tanktopX.jpg, where X is some number
+                createExternalStoragePrivatePicture(imageBitmap, tanktop,"tanktop");
             }
             else if(location == 7){ //skirts
                 skirts.add(imageBitmap);
-                createExternalStoragePrivatePicture(imageBitmap, skirts,"skirt"); //testing
+                //This adds the picture to the private pictures directory called as skirtX.jpg, where X is some number
+                createExternalStoragePrivatePicture(imageBitmap, skirts,"skirt");
             }
             else if(location == 8){ //sweaters
                 sweaters.add(imageBitmap);
-                createExternalStoragePrivatePicture(imageBitmap, sweaters,"sweater"); //testing
+                //This adds the picture to the private pictures directory called as sweaterX.jpg, where X is some number
+                createExternalStoragePrivatePicture(imageBitmap, sweaters,"sweater");
             }
 
             ivPictureTaken.setImageResource(R.drawable.unknown); //reset picture
@@ -186,7 +194,7 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
         File path = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File file = new File(path, type+s.indexOf(bitmap)+".jpg");
 
-
+        //creates a stream object so that it can compress and save the bitmap from the ImageView passed in as a JPEG
         OutputStream fOutputStream = null;
         try {
             fOutputStream = new FileOutputStream(file);
@@ -194,9 +202,11 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOutputStream);
             fOutputStream.flush();
             fOutputStream.close();
-
+            //If the above was successful then it'll actually store it
             MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
         } catch (FileNotFoundException e) {
+            //makes a Toast in the case that the file wasn't found, in the case of this method it's unlikely to happen
+            //but this is kept in just in case
             e.printStackTrace();
             Toast.makeText(this, "Save Failed", Toast.LENGTH_SHORT).show();
             return;

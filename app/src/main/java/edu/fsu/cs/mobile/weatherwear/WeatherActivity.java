@@ -23,7 +23,7 @@ import java.util.Random;
 public class WeatherActivity extends AppCompatActivity implements LocationListener {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION2 = 100;
-    public static final int REQUEST_TIME=1000*60*30;        //requests the time every 30 minutes
+    public static final int REQUEST_TIME=1000*60*30;        //requests for location updates every 30 minutes
 
     ArrayList<File> shorts = new ArrayList<>();
     ArrayList<File> pants = new ArrayList<>();
@@ -78,7 +78,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
         layout = (RelativeLayout) findViewById(R.id.layout);
 
         //Getting a picture: Assuming the person has already taken pictures
-
+        //This uses a method to get the external files and gets the picture directory within the app's private folder
         File path = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File files[] = path.listFiles();
         rand = new Random();
